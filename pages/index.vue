@@ -7,6 +7,8 @@
         <br>
         <br>
         <NuxtLink to="/about">Over ons</NuxtLink>
+        <br>
+        <NuxtLink to="/cooltable">Check out the cool table</NuxtLink>
       </div>
     </div>
   </div>
