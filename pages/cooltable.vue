@@ -1,53 +1,40 @@
 <template>
-    <div v-if="entriesList.length > 0" class="toDoTable">
+    <div v-if="todoStore.taskTable.length > 0" class="toDoTable">
         <table>
             <tr>
                 <th>Assignee</th>
                 <th>Date Due</th>
                 <th>Description</th>
             </tr>
-            <tr v-for="ee in entriesList">
-                <td>{{ ee.todo.assignee }}</td>
-                <td>{{ ee.todo.dueDateTime }}</td>
-                <td>{{ee.todo.description}}</td>
+            <tr v-for="tt in todoStore.taskTable">
+                <td>{{ tt.todo.assignee }}</td>
+                <td>{{ formatDateTime(tt.todo.dueDateTime) }}</td>
+                <td>{{tt.todo.description}}</td>
             </tr>
         </table>
     </div>
-    <p v-else>No data yet, press the big button</p>
-    <button id="BigTableButton" @click="OnGetDataClick" >Look for new entry</button>
-    <p v-if="reactiveText" style="color:red">Entry was a duplicate 😒 </p>
+    <p v-else>No data yet, press the big button ✨</p>
+    <button id="BigTableButton" @click="OnGetDataClick"  >Look for new entry</button>
+    <p v-if="todoStore.failedCall" style="color:red">Entry was a duplicate 😒 </p>
+        
 </template>
 <script setup> 
 import {useGlobalStore} from '@/stores/global'
-import {storeToRefs} from 'pinia'
-//Get store
-const globalStore = useGlobalStore()
-//Get entries
-const entriesList = reactive([])
+import { useToDoStore } from '~/stores/todo';
+//Get stores
+const todoStore = useToDoStore()
 
-//bool that determines if the html shows the 'no new entry found' object
-let reactiveText = ref(false)
 
 async function OnGetDataClick(){
-    globalStore.apiCall().then(function(reply) {
-
-        let newElement = true
-        entriesList.forEach(element => {
-            if(element.todo.id == reply.todo.id){
-                newElement = false
-                reactiveText.value = true
-            }
-        });
-        if(!newElement) return
-        reactiveText.value = false
-        //change datetime to smth more useful
-        reply.todo.dueDateTime = formatDateTime(reply.todo.dueDateTime)
-        entriesList.push(reply)
-    })
-    //entriesList.push(await  globalStore.apiCall())
+    todoStore.apiCall()
     return
 }
 
+/**
+ * From a string that can be processed via the Date class, into a new string that is in a pretty format
+ * @param dueDateTime the date in a string format that can be fed into Date()
+ * @returns a string of the date in a readable format
+ */
 function formatDateTime(dueDateTime){
     let dateFormated = new Date(dueDateTime)
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
@@ -99,4 +86,5 @@ function formatDateTime(dueDateTime){
     height: 10vh;
     font-size: 5vh;
 }
+
 </style>
