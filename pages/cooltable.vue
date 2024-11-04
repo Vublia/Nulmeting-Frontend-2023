@@ -19,7 +19,7 @@
         
 </template>
 <script setup> 
-import {useGlobalStore} from '@/stores/global'
+
 import { useToDoStore } from '~/stores/todo';
 //Get stores
 const todoStore = useToDoStore()
@@ -69,7 +69,7 @@ function formatDateTime(dueDateTime){
 }
 
 </script>
-<style lang="css">
+<style scoped lang="scss">
 
 .toDoTable table {
     width: 60vw;

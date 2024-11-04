@@ -1,0 +1,6 @@
+FILLING IN THE API KEY
+Fill in the API key in todo.ts,  in the apiCall function  (the variable config). OR create a file named apiKey.js in the root with a function 'getAPIkey()' which returns your api key.
+
+
+There are a lot of warnings on my side but it does run fine 
+  (Warnings related to deprecated packages)
