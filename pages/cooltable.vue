@@ -71,15 +71,17 @@ function formatDateTime(dueDateTime){
 </script>
 <style scoped lang="scss">
 
-.toDoTable table {
+.toDoTable {
+    table {
     width: 60vw;
 }
-.toDoTable th{
+    th{
     border: 2px solid #000000;
 }
-.toDoTable td{
+    td{
     text-align:center;
     border: 1px solid #000000;
+}
 }
 #BigTableButton{
     width: 60vw;
