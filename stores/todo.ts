@@ -5,7 +5,9 @@ import { defineStore } from "pinia";
 
 
 export const useToDoStore = defineStore("todoStore", () => {
+    //table with the todo's, gets displayed on cooltable.vue
   const taskTable = reactive(new Array())
+  //failedCall is true if a duplicate todo was gotten from the api-request
   const failedCall = ref(false)
   const globalStore = useGlobalStore()
 
