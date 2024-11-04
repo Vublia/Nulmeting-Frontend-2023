@@ -6,3 +6,5 @@ I left the about.vue and index.vue untouched (except a button that sends you to 
 
 There are a lot of warnings on my side but it does run fine 
   (Warnings related to deprecated packages)
+
+I also used `npm i sass` to install sass, as the one in the documents failed me. Hopefully that isn't a problem
