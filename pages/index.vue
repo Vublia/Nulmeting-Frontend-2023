@@ -8,7 +8,7 @@
         <br>
         <NuxtLink to="/about">Over ons</NuxtLink>
         <br>
-        <NuxtLink to="/cooltable">Check out the cool table</NuxtLink>
+        <NuxtLink id="CoolTableRouter" to="/cooltable">Check out the result of Nulmeting 3 here</NuxtLink>
       </div>
     </div>
   </div>
@@ -21,3 +21,8 @@ function increment() {
   cnt.value += 1;
 }
 </script>
+<style lang="css">
+#CoolTableRouter{
+  font-size: 5vh;
+}
+</style>

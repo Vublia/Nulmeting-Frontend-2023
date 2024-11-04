@@ -1,23 +1,33 @@
 <template>
-    <table>
-        <tr>
-            <th>assignee</th>
-            <th>dueDateTime</th>
-            <th>description</th>
-        </tr>
-        <tr v-for="ee in entriesList">
-            <td>{{ ee.todo.assignee }}</td>
-            <td>{{ ee.todo.dueDateTime }}</td>
-            <td>{{ee.todo.description}}</td>
-        </tr>
-    </table>
-    <button @click="OnGetDataClick" >Look for entry</button>
+    <div v-if="entriesList.length > 0" class="toDoTable">
+        <table>
+            <tr>
+                <th>Assignee</th>
+                <th>Date Due</th>
+                <th>Description</th>
+            </tr>
+            <tr v-for="ee in entriesList">
+                <td>{{ ee.todo.assignee }}</td>
+                <td>{{ ee.todo.dueDateTime }}</td>
+                <td>{{ee.todo.description}}</td>
+            </tr>
+        </table>
+    </div>
+    <p v-else>No data yet, press the big button</p>
+    <button id="BigTableButton" @click="OnGetDataClick" >Look for new entry</button>
+    <p v-if="reactiveText" style="color:red">Entry was a duplicate 😒 </p>
 </template>
-<script setup lang="ts"> 
+<script setup> 
 import {useGlobalStore} from '@/stores/global'
 import {storeToRefs} from 'pinia'
+//Get store
 const globalStore = useGlobalStore()
+//Get entries
 const entriesList = reactive([])
+
+//bool that determines if the html shows the 'no new entry found' object
+let reactiveText = ref(false)
+
 async function OnGetDataClick(){
     globalStore.apiCall().then(function(reply) {
 
@@ -25,9 +35,11 @@ async function OnGetDataClick(){
         entriesList.forEach(element => {
             if(element.todo.id == reply.todo.id){
                 newElement = false
+                reactiveText.value = true
             }
         });
         if(!newElement) return
+        reactiveText.value = false
         //change datetime to smth more useful
         reply.todo.dueDateTime = formatDateTime(reply.todo.dueDateTime)
         entriesList.push(reply)
@@ -70,3 +82,21 @@ function formatDateTime(dueDateTime){
 }
 
 </script>
+<style lang="css">
+
+.toDoTable table {
+    width: 60vw;
+}
+.toDoTable th{
+    border: 2px solid #000000;
+}
+.toDoTable td{
+    text-align:center;
+    border: 1px solid #000000;
+}
+#BigTableButton{
+    width: 60vw;
+    height: 10vh;
+    font-size: 5vh;
+}
+</style>
